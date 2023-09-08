@@ -3,11 +3,18 @@ const router    = express.Router();
 const studentsController = require('./students.controller')
 
 router.get('/',(req,res)=>{
-    res.send('peticion get a students')
+    console.log(req.query.id);
+    studentsController.getStudents({classes: req.query.id})
+        .then(students=>{
+            res.send(students)
+        })
+        .catch(e=>{
+            res.send(e)
+        })
 });
 router.post('/',(req,res)=>{
-    const {name,level,parallel,password} = req.body
-    studentsController.addStudent(name,level,parallel,password)
+    const {name,classes,password} = req.body
+    studentsController.addStudent(name,classes,password)
         .then( newStudent => {
             res.send(newStudent)
         })

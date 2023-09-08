@@ -6,4 +6,9 @@ async function addStudentToDB(student){
     return studentSaved
 }
 
-module.exports = {addStudentToDB}
+async function listStudents(filter){
+    const students = await StudentModel.find(filter)
+    return students
+}
+
+module.exports = {addStudentToDB,listStudents}

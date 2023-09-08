@@ -2,8 +2,14 @@ const express           = require('express');
 const router            = express.Router();
 const classesController = require('./classes.controller');
 
-router.get('/',(req,res)=>{
-    res.send('peticion get a classes')
+router.get('/all',(req,res)=>{
+    classesController.getClasses()
+        .then(classes=>{
+            res.send(classes)
+        })
+        .catch(e=>{
+            res.send(e)
+        })
 })
 
 router.post('/',(req,res)=>{

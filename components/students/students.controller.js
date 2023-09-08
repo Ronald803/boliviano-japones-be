@@ -1,11 +1,19 @@
 const studentStore = require('./students.store');
+const classesStore = require('../classes/classes.store');
 
-function addStudent(name,level,parallel,password){
+function addStudent(name,classes,password){
     return new Promise( async (resolve,reject)=>{
-        const student = { name,level,parallel,password, characteristic: "created", points:[] }
+        const student = { name,classes,password, characteristic: "created", points:[] }
         const studentSaved = await studentStore.addStudentToDB(student)
+        await classesStore.increaseNumberOfStudentsToClasses(classes)
         resolve( studentSaved )
     } )
 }
 
-module.exports = {addStudent}
+function getStudents(filter){
+    return new Promise( (resolve,reject)=>{
+        resolve(studentStore.listStudents(filter))
+    })
+}
+
+module.exports = {addStudent,getStudents}

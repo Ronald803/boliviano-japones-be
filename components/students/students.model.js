@@ -11,11 +11,7 @@ const mySchema = new Schema({
         type: String,
         required: true
     },
-    level: {
-        type: String,
-        required: true
-    },
-    parallel: {
+    classes: {
         type: String,
         required: true
     },

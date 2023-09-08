@@ -3,32 +3,28 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const mySchema = new Schema({
-    level:{
+    name:{
         type: String,
         required: true
     },
-    parallel:{
+    description:{
         type: String,
         required: true
     },
-    teacher:{
-        type: String,
+    classes:{
+        type: Array,
         required: true
     },
-    students:{
+    questions:{
         type: Number,
         required: true
     },
-    characteristic:{
-        type: String,
-        required: true
-    },
-    testsAvailable:{
-        type: Array,
+    chapter:{
+        type: Number,
         required: true
     }
+
 })
 
-const model = mongoose.model('Classes',mySchema)
-module.exports = model;
-
+const model     = mongoose.model('Test',mySchema)
+module.exports  = model;

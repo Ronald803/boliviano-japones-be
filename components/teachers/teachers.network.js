@@ -6,8 +6,8 @@ router.get('/',(req,res)=>{
     res.send('peticion get a teachers')
 });
 router.post('/',(req,res)=>{
-    const {name,password,classes,cellphone,email} = req.body
-    teachersController.addTeacher(name,password,classes,cellphone,email)
+    const {name,password,classes,cellphone,email,idClasses} = req.body
+    teachersController.addTeacher(name,password,classes,cellphone,email,idClasses)
         .then( newTeacher => {
             res.send(newTeacher)
         })
