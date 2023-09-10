@@ -1,16 +1,16 @@
 const questionStore = require('./questions.store')
 
-function addQuestion(){
+function addQuestion(question,possibleAnswers,test,answer){
     return new Promise(async(resolve,reject)=>{
-        const question = {};
-        const questionSaved = await questionStore.addQuestionToDB(question);
+        const newQuestion = {question,possibleAnswers,test,answer};
+        const questionSaved = await questionStore.addQuestionToDB(newQuestion);
         resolve(questionSaved)
     })
 }
 
-function getQuestion(){
+function getQuestion(filter){
     return new Promise((resolve,reject)=>{
-        resolve({msg: "get question desde controller"})
+        resolve(questionStore.listQuestions(filter))
     })
 }
 

@@ -3,7 +3,7 @@ const router            = express.Router();
 const questionController= require('./questions.controller');
 
 router.get('/',(req,res)=>{
-    questionController.getQuestion()
+    questionController.getQuestion(req.query)
         .then(question=>{
             res.send(question)
         })
@@ -11,7 +11,8 @@ router.get('/',(req,res)=>{
 })
 
 router.post('/',(req,res)=>{
-    questionController.addQuestion()
+    const {question,possibleAnswers,test,answer} = req.body;
+    questionController.addQuestion(question,possibleAnswers,test,answer)
         .then(question=>{
             res.send(question)
         })

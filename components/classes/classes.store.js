@@ -13,8 +13,11 @@ async function addTeacherToClasses(idClasses, idTeacher){
 
 async function increaseNumberOfStudentsToClasses(idClasses){
     const classesFound = await ClassesModel.findById(idClasses);
-    classesFound.students = classesFound.students + 1
-    classesFound.save()
+    if(classesFound.length>0){
+        classesFound.students = classesFound.students + 1
+        classesFound.save();
+        return true
+    }else{ return false } 
 }
 
 async function listClasses(filter){
