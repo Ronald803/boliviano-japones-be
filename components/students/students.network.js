@@ -2,8 +2,16 @@ const express   = require('express');
 const router    = express.Router();
 const studentsController = require('./students.controller')
 
+router.get('/all',(req,res)=>{
+    studentsController.getStudents()
+        .then(students=>{
+            res.send(students)
+        })
+        .catch(e=>{
+            res.send(e)
+        })
+});
 router.get('/',(req,res)=>{
-    console.log(req.query.id);
     studentsController.getStudents({classes: req.query.id})
         .then(students=>{
             res.send(students)

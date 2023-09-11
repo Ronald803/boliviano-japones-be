@@ -3,11 +3,13 @@ const router            = express.Router();
 const teachersController= require('./teachers.controller');
 
 router.get('/',(req,res)=>{
-    res.send('peticion get a teachers')
+    teachersController.getTeachers()
+        .then(teachers=>{res.send(teachers)})
+        .catch(e=>{res.send(e)})
 });
 router.post('/',(req,res)=>{
-    const {name,password,classes,cellphone,email,idClasses} = req.body
-    teachersController.addTeacher(name,password,classes,cellphone,email,idClasses)
+    const {name,password,classes,cellphone,email} = req.body
+    teachersController.addTeacher(name,password,classes,cellphone,email)
         .then( newTeacher => {
             res.send(newTeacher)
         })

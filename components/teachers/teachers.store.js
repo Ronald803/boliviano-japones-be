@@ -6,4 +6,9 @@ async function addTeacherToDB(teacher){
     return teacherSaved
 }
 
-module.exports = {addTeacherToDB}
+async function listTeachers(filter){
+    const teachers = await TeacherModel.find(filter)
+    return teachers
+}
+
+module.exports = {addTeacherToDB,listTeachers}

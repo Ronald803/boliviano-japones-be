@@ -7,7 +7,7 @@ async function addTestToDB(test){
 }
 
 async function listTests(filter){
-    const tests = await TestModel(filter)
+    const tests = await TestModel.find(filter)
     return tests
 }
 

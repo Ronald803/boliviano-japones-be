@@ -1,6 +1,7 @@
 const express           = require('express');
 const router            = express.Router();
 const testController    = require('./tests.controller');
+const { validateJWT } = require('../../middlewares/validateJWT');
 
 router.post('/',(req,res)=>{
     const {name,description,classes,questions,chapter} = req.body

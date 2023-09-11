@@ -3,8 +3,10 @@ const teachers  = require('./components/teachers/teachers.network');
 const classes   = require('./components/classes/classes.network');
 const tests     = require('./components/tests/tests.network');
 const questions = require('./components/questions/questions.network');
+const auth      = require('./components/auth/auth.network');
 
 const routes = function(server){
+    server.use('/api/auth',auth);
     server.use('/api/tests',tests);
     server.use('/api/students',students);
     server.use('/api/teachers',teachers);
