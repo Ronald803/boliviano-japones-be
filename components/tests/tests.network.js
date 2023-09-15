@@ -3,7 +3,7 @@ const router            = express.Router();
 const testController    = require('./tests.controller');
 const { validateJWT } = require('../../middlewares/validateJWT');
 
-router.post('/',(req,res)=>{
+router.post('/',validateJWT("teacher"),(req,res)=>{
     const {name,description,classes,questions,chapter} = req.body
     testController.addTest(name,description,classes,questions,chapter)
         .then(newTest=>{
@@ -14,8 +14,9 @@ router.post('/',(req,res)=>{
         })
 })
 
-router.get('/',(req,res)=>{
-    testController.getTests()
+router.get('/s',validateJWT("student"),(req,res)=>{
+    console.log(req.user);
+    testController.getStudentTests(req.user)
         .then(tests=>{
             res.send(tests)
         })
