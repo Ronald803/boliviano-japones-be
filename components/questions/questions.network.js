@@ -11,7 +11,7 @@ router.get('/',(req,res)=>{
         .catch(e=>{res.send(e)})
 })
 
-router.post('/',(req,res)=>{
+router.post('/',validateJWT("teacher"),(req,res)=>{
     const {question,possibleAnswers,test,answer} = req.body;
     questionController.addQuestion(question,possibleAnswers,test,answer)
         .then(question=>{
