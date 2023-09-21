@@ -5,6 +5,18 @@ const { validateJWT } = require('../../middlewares/validateJWT');
 
 router.get('/',(req,res)=>{
     questionController.getQuestion(req.query)
+        .then(question=>{ res.send(question) })
+        .catch(e=>{res.send(e)})
+})
+
+router.get('/s',validateJWT('student'),(req,res)=>{
+    const student = req.user;
+    console.log(student);
+    const testAlreadyTaken = student.points.some(element=>{
+        return element.test === req.query.test
+    })
+    if(testAlreadyTaken){return res.send('Ya tomaste este examen')}
+    questionController.getQuestion(req.query,student)
         .then(question=>{
             res.send(question)
         })

@@ -11,4 +11,10 @@ async function listStudents(filter){
     return students
 }
 
-module.exports = {addStudentToDB,listStudents}
+async function setTestStudentScore(id,objectScoreNewTest){
+    const foundStudent = await StudentModel.findById(id);
+    foundStudent.points.push(objectScoreNewTest);
+    foundStudent.save()
+}
+
+module.exports = {addStudentToDB,listStudents,setTestStudentScore}
