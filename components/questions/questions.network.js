@@ -33,13 +33,13 @@ router.post('/',validateJWT("teacher"),(req,res)=>{
 })
 
 router.put('/',validateJWT("student"), async(req,res)=>{
-    const foundUser = req.user
+    const student = req.user
     const {test} = req.body;
-    //let califications = await Promise.all(
-    //    test.map( (exercise) => {
-    //        return questionController.checkAnswer(exercise.response,exercise._id,foundUser._id)
-    //    })
-    //)
+    let califications = await Promise.all(
+        test.map( (question) => {
+            return questionController.checkAnswer(question.studentAnswer,question._id,student._id)
+        })
+    )
     //let points = 0
     //califications.map( a => {
     //    if(a.result === "Correct"){

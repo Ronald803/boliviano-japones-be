@@ -23,5 +23,22 @@ function getQuestion(filter,student){
     })
 }
 
+function checkAnswer(studentAnswer,questionID,studentID){
+    return new Promise(async(resolve,reject)=>{
+        const question = await questionStore.listQuestions({_id:questionID})
+        let result;
+        if(question[0].answer===studentAnswer){
+            result = "Correct"
+        } else {
+            result = "Incorrect"
+        }
+        resolve({
+            ...question,
+            studentAnswer,
+            result
+        })
+    })
+}
+
 
 module.exports = { addQuestion, getQuestion }
