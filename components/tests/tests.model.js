@@ -11,8 +11,8 @@ const mySchema = new Schema({
         type: String,
         required: true
     },
-    classes:{
-        type: Array,
+    level:{
+        type: String,
         required: true
     },
     questions:{
@@ -20,6 +20,10 @@ const mySchema = new Schema({
         required: true
     },
     chapter:{
+        type: Number,
+        required: true
+    },
+    lifeBook:{
         type: Number,
         required: true
     }

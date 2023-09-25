@@ -6,11 +6,9 @@ const studentsModel = require('../components/students/students.model');
 const validateJWT = (rol)=>{
     return async (req=request,res=response,next)=>{
         const token = req.header('x-token')
-        console.log({token});//-----------------------------------------------------
         try{
             if(!token){return res.status(401).json({msg: 'No existe token'})}
             const { uid } = jwt.verify( token, process.env.SECRETORPRIVATEKEY);
-            console.log({uid});
             let usuario;
             if(rol === "student"){
                 usuario = await studentsModel.findById(uid)

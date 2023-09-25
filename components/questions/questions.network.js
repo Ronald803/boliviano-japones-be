@@ -1,7 +1,8 @@
 const express           = require('express');
 const router            = express.Router();
 const questionController= require('./questions.controller');
-const { validateJWT } = require('../../middlewares/validateJWT');
+const { validateJWT }   = require('../../middlewares/validateJWT');
+const studentStore      = require('../students/students.store');
 
 router.get('/',(req,res)=>{
     questionController.getQuestion(req.query)
@@ -11,7 +12,6 @@ router.get('/',(req,res)=>{
 
 router.get('/s',validateJWT('student'),(req,res)=>{
     const student = req.user;
-    console.log(student);
     const testAlreadyTaken = student.points.some(element=>{
         return element.test === req.query.test
     })
@@ -40,14 +40,15 @@ router.put('/',validateJWT("student"), async(req,res)=>{
             return questionController.checkAnswer(question.studentAnswer,question._id,student._id)
         })
     )
-    //let points = 0
-    //califications.map( a => {
-    //    if(a.result === "Correct"){
-    //        points++
-    //    }
-    //})
-    //const score = await storeUser.addPoints(foundUser._id,points,califications[0].test)
-    //res.send({califications,score})
+    let points = 0
+    califications.map( a => {
+        if(a.result === "Correct"){
+            points++
+        }
+    })
+    console.log(califications);
+    const score = await studentStore.addPoints(student._id,points,califications[0].test)
+    res.send({califications,score})
 });
 
 module.exports = router;

@@ -12,28 +12,34 @@ function addQuestion(question,possibleAnswers,test,answer){
 function getQuestion(filter,student){
     return new Promise(async(resolve,reject)=>{
         const foundQuestions =  await questionStore.listQuestions(filter)
+        let modifiedQuestions = [];
+        foundQuestions.map(q=>{
+            const {_id,question,possibleAnswers} = q
+            modifiedQuestions.push({_id,question,possibleAnswers,answer:""})
+        })
         const setNewTestScoreStudent = {
             test: filter.test,
             points: 0,
             questions: foundQuestions.length
         }
         await studentStore.setTestStudentScore(student._id,setNewTestScoreStudent);
-        resolve(foundQuestions)
+        resolve(modifiedQuestions)
 
     })
 }
 
 function checkAnswer(studentAnswer,questionID,studentID){
     return new Promise(async(resolve,reject)=>{
-        const question = await questionStore.listQuestions({_id:questionID})
+        const questionDB = await questionStore.listQuestions({_id:questionID})
         let result;
-        if(question[0].answer===studentAnswer){
+        if(questionDB[0].answer===studentAnswer){
             result = "Correct"
         } else {
             result = "Incorrect"
         }
+        const {_id,question,possibleAnswers,test,answer} = questionDB[0]
         resolve({
-            ...question,
+            _id,question,possibleAnswers,test,answer,
             studentAnswer,
             result
         })
@@ -41,4 +47,4 @@ function checkAnswer(studentAnswer,questionID,studentID){
 }
 
 
-module.exports = { addQuestion, getQuestion }
+module.exports = { addQuestion, getQuestion, checkAnswer }
