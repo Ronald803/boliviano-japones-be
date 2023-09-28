@@ -1,8 +1,9 @@
 const express           = require('express');
 const router            = express.Router();
 const classesController = require('./classes.controller');
+const { validateJWT } = require('../../middlewares/validateJWT');
 
-router.get('/all',(req,res)=>{
+router.get('/all',validateJWT('teacher'),(req,res)=>{
     classesController.getClasses()
         .then(classes=>{
             res.send(classes)
