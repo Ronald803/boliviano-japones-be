@@ -13,6 +13,14 @@ router.get('/all',validateJWT('teacher'),(req,res)=>{
         })
 })
 
+router.get('/:id',validateJWT('teacher'),(req,res)=>{
+    classesController.getSpecificClass(req.params.id)
+        .then(allInfoClasses=>{
+            res.send(allInfoClasses)
+        })
+        .catch(e=>console.log(e))
+})
+
 router.post('/',(req,res)=>{
     const {level,parallel} = req.body;
     classesController.addClasses(level,parallel)

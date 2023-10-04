@@ -1,4 +1,5 @@
-const classesStore = require('./classes.store');
+const classesStore  = require('./classes.store');
+const studentsStore = require('../students/students.store');
 
 function addClasses(level,parallel){
     return new Promise( async(resolve,reject)=>{
@@ -12,5 +13,15 @@ function getClasses(filter){
         resolve(classesStore.listClasses(filter))
     } )
 }
+function getSpecificClass(classes){
+    return new Promise(async (resolve,reject)=>{
+        const allStudents = await studentsStore.listStudents({classes})
+        resolve({
+            allStudents,
+            msg:"get specific Class: " + idClasses
+        })
+    })
+}
 
-module.exports = {addClasses,getClasses}
+
+module.exports = {addClasses,getClasses,getSpecificClass}
