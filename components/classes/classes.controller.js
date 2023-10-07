@@ -16,9 +16,11 @@ function getClasses(filter){
 function getSpecificClass(classes){
     return new Promise(async (resolve,reject)=>{
         const allStudents = await studentsStore.listStudents({classes})
+        const infoClasses = await classesStore.listClasses({_id:classes})
         resolve({
-            allStudents,
-            msg:"get specific Class: " + idClasses
+            infoClasses: infoClasses[0],
+            students: allStudents,
+            msg:"get specific Class: " + classes
         })
     })
 }
