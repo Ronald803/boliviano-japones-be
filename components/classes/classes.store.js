@@ -10,7 +10,6 @@ async function addTeacherToClasses(idClasses, idTeacher){
     classesFound.teacher = idTeacher;
     classesFound.save()
 }
-
 async function increaseNumberOfStudentsToClasses(idClasses){
     const classesFound = await ClassesModel.findById(idClasses);
     if(classesFound.length>0){
@@ -19,10 +18,21 @@ async function increaseNumberOfStudentsToClasses(idClasses){
         return true
     }else{ return false } 
 }
-
 async function listClasses(filter){
     const classes = await ClassesModel.find(filter)
     return classes
 }
+async function addTestToClasses(idTest,idClasses){
+    const classesFound = await ClassesModel.findById(idClasses)
+    classesFound.testsAvailable.push(idTest)
+    const classesSaved = await classesFound.save();
+    return classesSaved
+}
 
-module.exports = {addClassesToDB,addTeacherToClasses,listClasses,increaseNumberOfStudentsToClasses}
+module.exports = {
+    addClassesToDB,
+    addTeacherToClasses,
+    listClasses,
+    increaseNumberOfStudentsToClasses,
+    addTestToClasses
+}

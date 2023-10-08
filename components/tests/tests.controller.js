@@ -19,8 +19,9 @@ function getStudentTests(requestingUser){
             let points = null;
             const { _id, name, description, questions, chapter, lifeBook } = test;
             requestingUser.points.map((userScore) => {
-              if (userScore.test == test._id) {
-                points = Math.ceil((userScore.points * 35) / test.questions);
+              if (userScore.idTest == test._id && userScore.points != null) {
+                //points = Math.ceil((userScore.points * 35) / test.questions);
+                points = userScore.points;
               }
             });
             return { _id, name, description, questions, chapter, points, lifeBook };

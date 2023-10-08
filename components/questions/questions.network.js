@@ -13,7 +13,11 @@ router.get('/',(req,res)=>{
 router.get('/s',validateJWT('student'),(req,res)=>{
     const student = req.user;
     const testAlreadyTaken = student.points.some(element=>{
-        return element.test === req.query.test
+        if(element.idTest === req.query.test && element.taken === true){
+            return true
+        } else {
+            return false
+        }
     })
     if(testAlreadyTaken){return res.send('Ya tomaste este examen')}
     questionController.getQuestion(req.query,student)

@@ -17,29 +17,41 @@ async function setTestStudentScore(id,objectScoreNewTest){
     foundStudent.save()
 }
 
-async function addPoints(id,points,test){
-    const foundStudent = await StudentModel.findById(id);
-    let index  
+async function addPoints(studentId,points,test){
+    const foundStudent = await StudentModel.findById(studentId);
+    let index = -1; 
     foundStudent.points.map((element,i)=>{
-        if(element.test == test){
+        if(element.idTest == test){
             index=i;
         }
     })
-    console.log("aaaaaaa",foundStudent);
-    console.log("test",test);
-    let newScore
-    if(index!=-1){ 
-        let notes=foundStudent.points[index]
-        console.log("bbbbbb",notes);
-        newScore = {
-            test: notes.test,
-            points: points,
-            questions: notes.questions
-        }
-        foundStudent.points.splice(index,1)
-        foundStudent.points.push(newScore)
+    console.log({index});
+    if(index!=-1){
+        let studentsPoints = foundStudent.points; 
+        studentsPoints[index].points = points;
+        studentsPoints[index].taken = true;
+        console.log({studentsPoints});
+        foundStudent.points = [];
+        foundStudent.points = studentsPoints
+        // let notes=foundStudent.points[index]
+        // newScore = {
+        //     test: notes.test,
+        //     points: points,
+        //     questions: notes.questions
+        // }
+        // foundStudent.points.splice(index,1)
+        // foundStudent.points.push(newScore)
     }
     const score = await foundStudent.save()
+    console.log({score});
+    console.log(score.points);
     return score
 }
-module.exports = {addStudentToDB,listStudents,setTestStudentScore,addPoints}
+
+async function setNewTestStudentObject(idStudent,newTest){
+    const foundStudent = await StudentModel.findById(idStudent)
+    foundStudent.points.push(newTest)
+    const savedStudent = await foundStudent.save();
+    return savedStudent
+}
+module.exports = {addStudentToDB,listStudents,setTestStudentScore,addPoints,setNewTestStudentObject}

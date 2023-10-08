@@ -24,6 +24,20 @@ function getSpecificClass(classes){
         })
     })
 }
+function addTestToClass(idClasses,idTest){
+    return new Promise(async(resolve,reject)=>{
+        let classesUpdated = await classesStore.addTestToClasses(idTest,idClasses)
+        let allStudentsClasses = await studentsStore.listStudents({classes:idClasses})
+        let newTest = {
+            taken: false,
+            idTest: idTest,
+            points: null
+        }
+        allStudentsClasses.map(async(student)=>{
+            await studentsStore.setNewTestStudentObject(student._id,newTest)
+        })
+        resolve({msg:"desde controller addTestToClasses"})
+    })
+}
 
-
-module.exports = {addClasses,getClasses,getSpecificClass}
+module.exports = {addClasses,getClasses,getSpecificClass,addTestToClass}

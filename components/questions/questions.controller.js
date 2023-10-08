@@ -17,14 +17,7 @@ function getQuestion(filter,student){
             const {_id,question,possibleAnswers} = q
             modifiedQuestions.push({_id,question,possibleAnswers,answer:""})
         })
-        const setNewTestScoreStudent = {
-            test: filter.test,
-            points: 0,
-            questions: foundQuestions.length
-        }
-        await studentStore.setTestStudentScore(student._id,setNewTestScoreStudent);
         resolve(modifiedQuestions)
-
     })
 }
 

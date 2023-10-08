@@ -14,7 +14,6 @@ router.get('/all',validateJWT('teacher'),(req,res)=>{
 })
 
 router.get('/:id',validateJWT('teacher'),(req,res)=>{
-    console.log("aaaaaaa",req.params.id);
     classesController.getSpecificClass(req.params.id)
         .then(allInfoClasses=>{
             res.send(allInfoClasses)
@@ -33,4 +32,10 @@ router.post('/',(req,res)=>{
         })
 })
 
+router.put('/tests',validateJWT('teacher'),(req,res)=>{
+    const {idClasses,idTest} = req.body
+    classesController.addTestToClass(idClasses,idTest)
+        .then(msg=>{ res.send(msg) })
+        .catch(e=>{ res.send(e) })
+})
 module.exports = router;
