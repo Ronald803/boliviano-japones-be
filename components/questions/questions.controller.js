@@ -9,15 +9,19 @@ function addQuestion(question,possibleAnswers,test,answer){
     })
 }
 
-function getQuestion(filter,student){
+function getQuestion(filter,rol){
     return new Promise(async(resolve,reject)=>{
         const foundQuestions =  await questionStore.listQuestions(filter)
-        let modifiedQuestions = [];
-        foundQuestions.map(q=>{
-            const {_id,question,possibleAnswers} = q
-            modifiedQuestions.push({_id,question,possibleAnswers,answer:""})
-        })
-        resolve(modifiedQuestions)
+        if(rol==='teacher'){
+            resolve(foundQuestions)
+        } else {
+            let modifiedQuestions = [];
+            foundQuestions.map(q=>{
+                const {_id,question,possibleAnswers} = q
+                modifiedQuestions.push({_id,question,possibleAnswers,answer:""})
+            })
+            resolve(modifiedQuestions)    
+        }
     })
 }
 

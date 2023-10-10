@@ -10,6 +10,13 @@ router.get('/',(req,res)=>{
         .catch(e=>{res.send(e)})
 })
 
+router.get('/t',validateJWT('teacher'),(req,res)=>{
+    questionController.getQuestion(req.query,'teacher')
+        .then(questions=>{
+            res.send(questions)
+        })
+        .catch(e=>{res.send(e)})
+})
 router.get('/s',validateJWT('student'),(req,res)=>{
     const student = req.user;
     const testAlreadyTaken = student.points.some(element=>{
@@ -20,7 +27,7 @@ router.get('/s',validateJWT('student'),(req,res)=>{
         }
     })
     if(testAlreadyTaken){return res.send('Ya tomaste este examen')}
-    questionController.getQuestion(req.query,student)
+    questionController.getQuestion(req.query,'student')
         .then(question=>{
             res.send(question)
         })
