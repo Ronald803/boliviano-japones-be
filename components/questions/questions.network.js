@@ -46,6 +46,7 @@ router.post('/',validateJWT("teacher"),(req,res)=>{
 router.put('/',validateJWT("student"), async(req,res)=>{
     const student = req.user
     const {test} = req.body;
+    const numberOfQuestions = test.length
     let califications = await Promise.all(
         test.map( (question) => {
             return questionController.checkAnswer(question.studentAnswer,question._id,student._id)
@@ -57,6 +58,7 @@ router.put('/',validateJWT("student"), async(req,res)=>{
             points++
         }
     })
+    points = Math.round(points * (100/numberOfQuestions))
     console.log(califications);
     const score = await studentStore.addPoints(student._id,points,califications[0].test)
     res.send({califications,score})
