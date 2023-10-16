@@ -14,10 +14,10 @@ function login(name,password,rol){
             user = await teachersStore.listTeachers({name})
             console.log({user});    
         }
-        if(user.length<1){return reject('Incorrect information')}
+        if(user.length<1){return reject({msg: 'Incorrect information'})}
         // __________________ Checking if the password is correct ________
         const validPassword = bcryptjs.compareSync(password,user[0].password)
-        if(!validPassword){return reject('Incorrect information')}
+        if(!validPassword){return reject({msg: 'Incorrect information'})}
         //___________________ Generating jwebtoken _______________________
         const payload = {uid: user[0]._id}
         const token = jwt.sign(payload,process.env.SECRETORPRIVATEKEY,{expiresIn: '4h'})
